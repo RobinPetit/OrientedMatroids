@@ -102,3 +102,6 @@ structure KOM (d : ℕ) (α : Type*) where
 def DualTransitivity (χ : Orientation d α) : Prop :=
   ∀ t s p q r,
     p ≠ r → arc χ t p s → arc χ t q s → arc χ t r s → arc χ t p q → arc χ t q r → arc χ t p r
+
+instance (α : Type*) : Coe (OM α) (Matroid α) :=
+  ⟨(·.M)⟩

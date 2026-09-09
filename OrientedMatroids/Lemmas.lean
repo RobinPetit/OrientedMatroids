@@ -12,7 +12,7 @@ DOCSTRING: TODO
 
 variable {α : Type*}
 -- the rank (dimension) is at least three
-variable {d : ℕ} (hdge3 : d ≥ 3)
+variable {d : ℕ}
 
 -- we can move from c2 to c3
 lemma c2_eq_c3_of_pref {h : d - 2 ≠ 0} (t : Fin (d - 2) → α) (a b : α) :
@@ -21,13 +21,13 @@ lemma c2_eq_c3_of_pref {h : d - 2 ≠ 0} (t : Fin (d - 2) → α) (a b : α) :
   ext i
   simp only [Nat.sub_eq, Nat.pred_eq_sub_one]
   split_ifs
-  · refine congrArg _ rfl
-  · refine congrArg _ (by grind)
+  · rfl
+  · exact congrArg _ (by grind)
   · rfl
   · rfl
 
 -- if we take the prefix and append back the last element, then nothing changes
-lemma pref_append (t : Fin d → α) :
+lemma pref_append (hdge3 : d ≥ 3) (t : Fin d → α) :
     append (pref t) (t ⟨d - 1, Nat.sub_one_lt_of_lt hdge3⟩) = t := by
   unfold pref append
   ext i
@@ -45,7 +45,7 @@ lemma append_pref (t : Fin (d - 1) → α) (e : α) :
   simp only [Fin.is_lt, ↓reduceDIte, Fin.eta]
 
 section
-variable {t : Fin (d - 2) → α} {a b : α}
+variable {t : Fin (d - 2) → α} {a b : α} (hdge3 : d ≥ 3)
 
 @[simp] lemma last : (c2 t a b) ⟨d - 1, by lia⟩ = b := by grind
 @[simp] lemma penultimate : (c2 t a b) ⟨d - 2, by lia⟩ = a := by grind
@@ -172,22 +172,7 @@ theorem UOM_satisfy_transitivity (hdge3 : d ≥ 3) (S : UOM d α) : Transitivity
       rw [(by grind : i = ⟨d - 2, _⟩), penultimate hdge3]
     have Hi : i < d - 2 ∨ i = d - 2 ∨ i = d - 1 := by grind
     have Hj : j < d - 2 ∨ j = d - 2 ∨ j = d - 1 := by grind
-    rcases Hi with hi | hi | hi
-    · rw [others hi]
-      rcases Hj with hj | hj | hj
-      · grind
-      · rw [H2 hj]; exact hdistinctxip _
-      · rw [H1 hj]; exact hdistinctxir _
-    · rw [H2 hi]
-      rcases Hj with hj | hj | hj
-      · exact Ne.symm <| (others hj) ▸ hdistinctxip _
-      · grind
-      · exact ne_of_ne_of_eq_of_eq hdistinctpr rfl (H1 hj).symm
-    · rw [H1 hi]
-      rcases Hj with hj | hj | hj
-      · exact Ne.symm <| (others hj) ▸ hdistinctxir _
-      · rw [H2 hj]; exact hdistinctpr.symm
-      · grind
+    grind only
   ---------------------------------------
   -- therefore pr is nonzero from uniformity
   ---------------------------------------
@@ -195,14 +180,30 @@ theorem UOM_satisfy_transitivity (hdge3 : d ≥ 3) (S : UOM d α) : Transitivity
     refine (S.uniform (c2 x p r)).mpr ?_
     intro i j hij
     have := hdistinctall i j |>.mt
-    simpa [hij] using this
+    simpa [hij] using! this
   ---------------------------------------
   -- hence it must be positive
   ---------------------------------------
   cases heq : S.χ (c2 x p r) with
   | zero => exact absurd heq hnonz
-  | neg => rw [heq] at ht3p; contradiction
-  | pos => exact heq
+  | neg  => rw [heq] at ht3p; contradiction
+  | pos  => exact heq
 
-theorem KOM_satisfy_GP3 {d : ℕ} (S : KOM d α) : GP3 S.χ := by
+theorem KOM_satisfy_GP3 (hdge3 : d ≥ 3) (S : KOM d α) : GP3 S.χ := by
   sorry
+
+def NatAtLeast3 := {n : ℕ // 3 ≤ n}
+
+instance : Coe NatAtLeast3 ℕ :=
+  ⟨fun n ↦ n.val⟩
+
+instance (d : NatAtLeast3) : Coe (UOM d α) (KOM d α) :=
+  ⟨fun S ↦ ⟨S.χ, S.alternating, S.uniform, UOM_satisfy_transitivity d.prop S⟩⟩
+
+instance (d : NatAtLeast3) : Coe (KOM d α) (UOM d α) :=
+  ⟨fun S ↦ ⟨S.χ, S.alternating, S.uniform, KOM_satisfy_GP3 d.prop S⟩⟩
+
+lemma uom_kom_eq (d : NatAtLeast3) (S : UOM d α) : ((S : KOM d α) : UOM d α) = S :=
+  rfl
+lemma kom_uom_eq (d : NatAtLeast3) (S : KOM d α) : ((S : UOM d α) : KOM d α) = S :=
+  rfl
