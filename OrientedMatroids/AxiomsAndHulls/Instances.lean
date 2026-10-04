@@ -106,16 +106,7 @@ private lemma cramer_rule (p q r t : PointR2) :
 private abbrev R2cc : CC X :=
   fun p q r ↦ det p q r > 0
 
-private lemma TMP {x y : ℝ} (z : ℝ) : (x + y) / z = x / z + y / z := by
-  exact add_div x y z
-
-private lemma TMP' {x y : ℝ} (hx : 0 < x) (hy : 0 < y) : 0 < x + y := by
-  exact Right.add_pos' hx hy
-
-private lemma _TMP {x : ℝ} (hx : x ≠ 0) : x / x = 1 := by
-  exact (div_eq_one_iff_eq hx).mpr rfl
-
-private lemma is_nondegenerate : Nondegeneracy <| R2cc X := by
+private lemma is_nondegenerate : Nondegenerate <| R2cc X := by
   intro p q r hpqr
   simp only [R2cc, det, matrix_of_points] at hpqr
   refine ⟨?_, ?_, ?_⟩
@@ -134,20 +125,20 @@ private lemma is_nondegenerate : Nondegeneracy <| R2cc X := by
     refine Matrix.det_zero_of_row_eq this ?_
     ext; simp
 
-private lemma is_cyclic : Cyclicity <| R2cc X := by
+private lemma is_cyclic : Cyclic <| R2cc X := by
   intro p q r hpqr
   simp only [R2cc, det] at hpqr ⊢
   suffices (matrix_of_points p q r).det = (matrix_of_points q r p).det by
     exact this ▸ hpqr
   exact det_eq_of_rotation
 
-private lemma is_antisymm : Antisymmetry <| R2cc X := by
+private lemma is_antisymm : Antisymmetric <| R2cc X := by
   intro p q r hpqr
   simp only [R2cc] at hpqr ⊢
   suffices (matrix_of_points p r q).det < 0 by exact Std.not_gt_of_lt this
   exact minus_sign_det_of_swap ▸ neg_neg_iff_pos.mpr hpqr
 
-private lemma is_total (hX : Noncolinear X) : Totality <| R2cc X := by
+private lemma is_total (hX : Noncolinear X) : Total <| R2cc X := by
   intro p q r hpneq hqner hpner
   rw [R2cc, R2cc, det, minus_sign_det_of_swap]
   simp [hX p r q]
@@ -168,7 +159,7 @@ private lemma det_interior_rule {p q r t : PointR2} :
   rw [@minus_sign_det_of_swap p t r]
   grind
 
-private lemma is_interior : Interiority <| R2cc X := by
+private lemma is_interior : Interior <| R2cc X := by
   intro ⟨p, hp⟩ ⟨q, hq⟩ ⟨r, hr⟩ ⟨t, ht⟩ htsp htsq htsr
   let M := !![p.1, p.2, 1, 1; q.1, q.2, 1, 1; r.1, r.2, 1, 1; t.1, t.2, 1, 1]
   have : M.det = 0 := by
@@ -184,7 +175,7 @@ private lemma is_interior : Interiority <| R2cc X := by
         + (matrix_of_points p r q).det := by grind
   grind
 
-private lemma is_transitive (hX : Noncolinear X) : Transitivity <| R2cc X := by
+private lemma is_transitive (hX : Noncolinear X) : Transitive <| R2cc X := by
   intro ⟨p, hp⟩ ⟨r, hr⟩ ⟨t, ht⟩ ⟨q, hq⟩ ⟨s, hs⟩ hpner htsp htsq htsr htpq htqr
   have htnep : (⟨t, ht⟩ : X) ≠ ⟨p, hp⟩ := by grind [is_nondegenerate X htsp]
   have htner : (⟨t, ht⟩ : X) ≠ ⟨r, hr⟩ := by grind [is_nondegenerate X htqr]
@@ -235,7 +226,7 @@ private lemma is_transitive (hX : Noncolinear X) : Transitivity <| R2cc X := by
     · exact Left.mul_pos (lt_of_lt_of_eq htpq <| det_eq_of_rotation) htsr
   · simp only [Fin.sum_univ_castSucc, Finset.univ_unique, Fin.default_eq_zero, Fin.isValue,
       Finset.sum_singleton, Fin.castSucc_zero, Fin.reduceLast, Fin.castSucc_one, c]
-    repeat rw [← TMP]
+    repeat rw [← add_div]
     rw [← det_interior_rule]
     refine (div_eq_one_iff_eq ?_).mpr rfl
     exact hX ⟨p, hp⟩ ⟨q, hq⟩ ⟨r, hr⟩
