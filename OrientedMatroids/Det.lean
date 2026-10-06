@@ -1,5 +1,15 @@
+/-
+Copyright (c) 2026 Jean Cardinal & Robin Petit. All rights reserved.
+Released under MIT NON-AI license as described in the file LICENSE.
+Authors: Jean Cardinal, Robin Petit
+-/
+
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import OrientedMatroids.Fin
+
+/-!
+DOCSTRING
+-/
 
 private lemma sum_eq_of_eq_of_eq {α : Type*} [Add α] {a b x y : α} (h : a = x) (h' : b = y) :
     a + b = x + y := by

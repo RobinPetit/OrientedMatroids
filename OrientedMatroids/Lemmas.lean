@@ -1,6 +1,6 @@
 /-
 Copyright (c) 2026 Jean Cardinal & Robin Petit. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
+Released under MIT NON-AI license as described in the file LICENSE.
 Authors: Jean Cardinal, Robin Petit
 -/
 

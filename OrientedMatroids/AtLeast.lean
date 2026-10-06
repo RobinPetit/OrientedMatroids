@@ -1,6 +1,17 @@
+/-
+Copyright (c) 2026 Jean Cardinal & Robin Petit. All rights reserved.
+Released under MIT NON-AI license as described in the file LICENSE.
+Authors: Jean Cardinal, Robin Petit
+-/
+
+import Mathlib.Algebra.NeZero
 import Mathlib.Algebra.Order.Group.Nat
 import Mathlib.Algebra.Order.Monoid.NatCast
 import Mathlib.Algebra.Ring.Nat
+
+/-!
+DOCSTRING: TODO
+-/
 
 class AtLeast (m n : ℕ) where
   le : m ≤ n

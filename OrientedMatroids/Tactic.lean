@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 Jean Cardinal & Robin Petit. All rights reserved.
+Released under MIT NON-AI license as described in the file LICENSE.
+Authors: Jean Cardinal, Robin Petit
+-/
+
 import Lean.Elab.Tactic.Basic
 import Lean.Meta.Tactic.Rewrite
 import Lean.Meta.Tactic.Replace

@@ -1,4 +1,12 @@
-import Mathlib.Data.Real.Basic
+/-
+Copyright (c) 2026 Jean Cardinal & Robin Petit. All rights reserved.
+Released under MIT NON-AI license as described in the file LICENSE.
+Authors: Jean Cardinal, Robin Petit
+-/
+
+import Architect
+
+import Mathlib.Basic.Real.Basic
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Tactic.Linarith.Lemmas
 import Mathlib.Tactic.Linarith
@@ -6,7 +14,12 @@ import Mathlib.Tactic.Linarith
 import OrientedMatroids.Det
 import OrientedMatroids.AxiomsAndHulls.Defs
 
+/-!
+DOSCTRING: TODO
+-/
+
 open AxiomsAndHulls
+open CC
 
 abbrev PointR2 := ℝ × ℝ
 
@@ -211,11 +224,6 @@ private lemma is_transitive (hX : Noncolinear X) : Transitive <| R2cc X := by
   · simp only [Fin.sum_univ_castSucc, Finset.univ_unique, Fin.default_eq_zero, Fin.isValue,
       Finset.sum_singleton, Fin.castSucc_zero, Fin.reduceLast, Fin.castSucc_one, gt_iff_lt, c, f]
     unfold R2cc at *
-    have Ht : t = (⟨t, ht⟩ : X) := by rfl
-    have Hp : p = (⟨p, hp⟩ : X) := by rfl
-    have Hq : q = (⟨q, hq⟩ : X) := by rfl
-    have Hr : r = (⟨r, hr⟩ : X) := by rfl
-    have Hs : s = (⟨s, hs⟩ : X) := by rfl
     suffices 0 < (det t q r * det t s p + det p t r * det t s q + det p q t * det t s r)
         / (det p q r) by
       grind only
@@ -231,7 +239,9 @@ private lemma is_transitive (hX : Noncolinear X) : Transitive <| R2cc X := by
     refine (div_eq_one_iff_eq ?_).mpr rfl
     exact hX ⟨p, hp⟩ ⟨q, hq⟩ ⟨r, hr⟩
 
-def CCSystem_of_R2_set (X : Set PointR2) (hX : Noncolinear X) : CCSystem X where
+@[blueprint "def-CCSystem-ofR2"
+  (statement := /-- Construct A CC system from a set of noncolinear points in $\mathbb{R}^2$. -/)]
+def CCSystem.of_R2_set (X : Set PointR2) (hX : Noncolinear X) : CCSystem X where
   cc := R2cc X
   cyclic := is_cyclic X
   antisymm := is_antisymm X

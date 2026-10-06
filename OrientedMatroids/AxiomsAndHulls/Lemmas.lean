@@ -1,11 +1,21 @@
--- import Mathlib
+/-
+Copyright (c) 2026 Jean Cardinal & Robin Petit. All rights reserved.
+Released under MIT NON-AI license as described in the file LICENSE.
+Authors: Jean Cardinal, Robin Petit
+-/
+
 import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.ByContra
 
 import OrientedMatroids.AxiomsAndHulls.Defs
 import OrientedMatroids.Tactic
 
+/-!
+DOCSTRING: TODO
+-/
+
 namespace AxiomsAndHulls
+open CC
 
 universe u
 variable {α : Type u}
@@ -113,7 +123,7 @@ private lemma imp_eq_or {p q : Prop} : (p → q) = (¬p ∨ q) := by
   grind
 
 lemma WeakPreCCSystem.vortexFree (S : WeakPreCCSystem α) :
-    VortexFree S.cc := by
+    S.cc.VortexFree := by
   intro t p q r s hpnes hpner hpnet hqnes hqnet hrnes hrnet hsnet
   have PT := @S.transitive p r t q s hpner
   have DT := @S.dualTransitive p q r s t hpner

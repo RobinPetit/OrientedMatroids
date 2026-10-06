@@ -1,7 +1,11 @@
--- This module serves as the root of the `OrientedMatroids` library.
--- Import modules here that should be built as part of the library.
-import OrientedMatroids.Basic
-import OrientedMatroids.Lemmas
-import OrientedMatroids.CCSystems
-
+import OrientedMatroids.AtLeast
 import OrientedMatroids.AxiomsAndHulls.All
+import OrientedMatroids.AxiomsAndHulls.Defs
+import OrientedMatroids.AxiomsAndHulls.Instances
+import OrientedMatroids.AxiomsAndHulls.Lemmas
+import OrientedMatroids.Basic
+import OrientedMatroids.CCSystems
+import OrientedMatroids.Det
+import OrientedMatroids.Fin
+import OrientedMatroids.Lemmas
+import OrientedMatroids.Tactic

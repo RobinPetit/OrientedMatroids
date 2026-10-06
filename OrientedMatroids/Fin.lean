@@ -1,6 +1,16 @@
-import OrientedMatroids.AtLeast
+/-
+Copyright (c) 2026 Jean Cardinal & Robin Petit. All rights reserved.
+Released under MIT NON-AI license as described in the file LICENSE.
+Authors: Jean Cardinal, Robin Petit
+-/
 
 import Mathlib.Algebra.BigOperators.Fin
+
+import OrientedMatroids.AtLeast
+
+/-!
+DOCSTRING: TODO
+-/
 
 lemma Fin1_sum {M : Type*} [AddCommMonoid M] {f : Fin 1 → M} :
     ∑ i, f i = f 0 := by

@@ -1,0 +1,33 @@
+\documentclass{report}
+
+\usepackage{xcolor}
+\usepackage{amssymb,amsthm,mathtools}
+\usepackage[unicode]{hyperref}
+\hypersetup{
+  colorlinks,
+  linkcolor={red!50!black},
+  citecolor={blue!50!black},
+  urlcolor={blue!80!black}
+}
+\usepackage[showmore, dep_graph]{blueprint}
+
+\usepackage[nameinlink,capitalise]{cleveref}
+\usepackage{tikz}
+
+\input{macros/common}
+\input{macros/web}
+
+\home{}
+\github{https://github.com/RobinPetit/OrientedMatroids}
+\dochome{}
+
+\title{OrientedMatroids}
+\author{Robin Petit \and Jean Cardinal}
+
+\begin{document}
+\maketitle
+\input{content}
+
+\bibliographystyle{alpha}
+\bibliography{references}
+\end{document}

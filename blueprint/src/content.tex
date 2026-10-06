@@ -1,0 +1,84 @@
+% In this file you should put the actual content of the blueprint.
+% It will be used both by the web and the print version.
+% It should *not* include the \begin{document}
+%
+% If you want to split the blueprint content into several files then
+% the current file can be a simple sequence of \input. Otherwise It
+% can start with a \section or \chapter for instance.
+
+\chapter{Knuth's CC systems}
+
+\input{../../.lake/build/blueprint/module/OrientedMatroids/AxiomsAndHulls/Defs}
+\input{../../.lake/build/blueprint/module/OrientedMatroids/AxiomsAndHulls/Instances}
+
+See~\cite{knuth1992axioms} for the definitions in what follows.
+
+\section{Definitions}
+
+% \begin{definition}
+% \label{def:PreCCSystem}
+% \lean{AxiomsAndHulls.PreCCSystem}
+% A pre-CC system~\cite{knuth1992axioms} on a set $X$ (typically $X \subseteq \mathbb{R}^2$) is predicate
+% \[\langle\cdot, \cdot, \cdot\rangle : X^3 \to \{0, 1\} : (p, q, r) \mapsto \langle s, p, q\rangle\]
+% (note that $\langle s, p , q\rangle$ is also simply written $pqr$ if the predicate is unambiguous) satisfying:
+% \begin{description}
+%     \item[Non-degeneracy] $\forall p, q, r \in X : pqr \rightarrow p \ne q \land p \ne r \land q \ne r$
+%     \item[Cyclicity] $\forall p, q, r \in X : pqr \rightarrow qrp$
+%     \item[Antisymmetry] $\forall p, q, r \in X : \lnot(pqr \land prq)$
+%     \item[Totality] $\forall \{p, q, r\} \in \binom{X}{3} : pqr \lor prq$
+%     \item[Transitivity] $\forall p, q, r, s, t \in \binom{X}{5} : tsp \land tsq \land tsr \land tpq \land tqr \rightarrow tpr$.
+% \end{description}
+% \end{definition}
+
+\inputleannode{def-CC}
+
+Think of CCs as valid orientations of triplets of points in $\mathbb{R}^2$.
+Indeed, this is a generalisation of the statement ``$r$ is on the left of the oriented line $pq$'' (see Definition~\ref{def-CCSystem-ofR2}).
+
+\inputleannode{def-CC-Nondegenerate}
+\inputleannode{def-CC-Cyclic}
+\inputleannode{def-CC-Antisymmetric}
+\inputleannode{def-CC-Total}
+\inputleannode{def-CC-Transitive}
+
+Note that one might believe the transitivity could be expressed as $tpq \land tqr \rightarrow tpr$.
+However, the first three predicates are important to make sure that $t$ is not in the triangle ${\Delta}pqr$,
+since in that case, the transitivity would not hold (see Figures~\ref{fig:CC:false-transitivity}~and~\ref{fig:CC:true-transitivity}).
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[every node/.style={circle,fill=black!75,minimum size=.2cm}]
+\node[label=above:$p$] (p0) at (-2, 0) {};
+\node[label=above:$q$] (q0) at (+2, 0) {};
+\node[label=above:$t$] (t0) at (0, 1.732) {};
+\node[label=above:$r$] (r0) at (0, 3.464) {};
+\end{tikzpicture}
+\caption{Counterexample of $tpq \land tqr \rightarrow tpr$.
+\label{fig:CC:false-transitivity}}
+\end{figure}
+% \hspace{2cm}%
+\begin{figure}
+\centering
+\begin{tikzpicture}[every node/.style={circle,fill=black!75,minimum size=.2cm}]
+\node[label=above:$t'$] (t) at (-2, 0) {};
+\node[label=above:$s'$] (s) at (+2, 1) {};
+\node[label=above:$r'$] (r) at (-2, 3) {};
+\node[label=above:$q'$] (q) at (0, 4) {};
+\node[label=above:$p'$] (p) at (0, 2) {};
+\draw (-4, -.5) -- (+4, 1.5);
+\end{tikzpicture}
+\caption{Correct transitivity.
+\label{fig:CC:true-transitivity}}
+\end{figure}
+
+
+\inputleannode{def-CC-Interior}
+
+\inputleannode{def-PreCCSystem}
+\inputleannode{def-CCSystem}
+
+\inputleannode{def-CCSystem-ofR2}
+
+
+\chapter{Uniform Oriented matroids}
+
